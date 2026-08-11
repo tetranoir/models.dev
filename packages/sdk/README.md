@@ -1,15 +1,15 @@
-# @opencode-ai/models
+# @arno-mirendil/models
 
-Official typed client for the [Models.dev](https://models.dev) API.
+Mirendil distribution of the [Models.dev](https://models.dev) catalog with explicit provider-to-canonical `base_model` mappings.
 
 ```sh
-npm install @opencode-ai/models
+npm install @arno-mirendil/models
 ```
 
 ## Usage
 
 ```ts
-import { Models } from "@opencode-ai/models"
+import { Models } from "@arno-mirendil/models"
 
 const client = Models.make()
 
@@ -41,7 +41,7 @@ Errors are a single `ModelsDevError` with `reason: "Transport" | "UnexpectedStat
 A full copy of the database ships inside the package as a separate, tree-shakable entrypoint:
 
 ```ts
-import snapshot, { providers, models, generatedAt } from "@opencode-ai/models/snapshot"
+import snapshot, { providers, models, generatedAt } from "@arno-mirendil/models/snapshot"
 
 providers["anthropic"]?.models["claude-opus-4-6"]?.limit.context
 ```
@@ -49,17 +49,17 @@ providers["anthropic"]?.models["claude-opus-4-6"]?.limit.context
 Use it for no-network runtimes, tests, cold-start-sensitive paths, or as an explicit fallback:
 
 ```ts
-const providers = await client.providers().catch(async () => (await import("@opencode-ai/models/snapshot")).providers)
+const providers = await client.providers().catch(async () => (await import("@arno-mirendil/models/snapshot")).providers)
 ```
 
 The published snapshot is at most ~24h behind the live API (data releases are automated).
 
 ### Effect
 
-An Effect-native client lives at `@opencode-ai/models/effect` (requires the optional peer dependency `effect`):
+An Effect-native client lives at `@arno-mirendil/models/effect` (requires the optional peer dependency `effect`):
 
 ```ts
-import { Models } from "@opencode-ai/models/effect"
+import { Models } from "@arno-mirendil/models/effect"
 import { FetchHttpClient } from "effect/unstable/http"
 import { Effect } from "effect"
 

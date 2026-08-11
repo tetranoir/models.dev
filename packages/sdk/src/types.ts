@@ -205,6 +205,8 @@ export interface ModelProviderConfig {
 export interface Model {
   /** Provider-scoped model ID, e.g. "claude-opus-4-6". */
   id: string
+  /** Canonical provider-agnostic model ID inherited by this provider entry. */
+  base_model?: string
   name: string
   description: string
   family?: ModelFamily

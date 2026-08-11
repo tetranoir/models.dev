@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode-ai/models",
+  "name": "@arno-mirendil/models",
   "version": "0.0.0",
   "description": "Official typed client for the models.dev API \u2014 an open database of AI model capabilities, pricing, and limits",
   "type": "module",
@@ -9,7 +9,7 @@
   "homepage": "https://models.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/models.dev.git",
+    "url": "git+https://github.com/tetranoir/models.dev.git",
     "directory": "packages/sdk"
   },
   "keywords": [

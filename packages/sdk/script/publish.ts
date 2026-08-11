@@ -18,7 +18,7 @@ import { $ } from "bun"
 import { loadCatalog, snapshotPayload } from "./generate.ts"
 
 const pkg = path.join(import.meta.dirname, "..")
-const packageName = "@opencode-ai/models"
+const packageName = "@arno-mirendil/models"
 const packageJsonPath = path.join(pkg, "package.json")
 
 const bumpArg = process.argv.find((argument) => argument.startsWith("--bump="))?.slice("--bump=".length) ?? "patch"

@@ -359,6 +359,8 @@ function refineModel<
 export const ModelShape = z
   .object({
     ...ModelBase.shape,
+    /** Canonical provider-agnostic model ID from the authored `base_model`. */
+    base_model: z.string().min(1, "Base model cannot be empty").optional(),
     cost: OutputCost.optional(),
   })
   .strict();

@@ -1,0 +1,48 @@
+name: Sync upstream and publish SDK
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 6 * * *"
+
+concurrency:
+  group: sync-upstream-publish
+  cancel-in-progress: false
+
+jobs:
+  sync-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Sync anomalyco/models.dev dev
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/anomalyco/models.dev.git
+          git fetch upstream dev
+          git merge --no-edit upstream/dev
+          # Re-apply the small Mirendil distribution patch if upstream changed
+          # package publishing files. Merge conflicts fail this job loudly.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: bun install
+      - run: bun validate
+      - run: bun run test
+        working-directory: packages/sdk
+      - name: Publish changed SDK snapshot
+        run: bun script/publish.ts --if-changed
+        working-directory: packages/sdk
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
+      - name: Push synchronized source
+        run: |
+          git push origin HEAD:dev
